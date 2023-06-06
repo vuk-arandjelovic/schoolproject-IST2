@@ -100,8 +100,6 @@ dist
 # vuepress build output
 .vuepress/dist
 
-models
-routes
 # vuepress v2.x temp and cache directory
 .temp
 .cache
