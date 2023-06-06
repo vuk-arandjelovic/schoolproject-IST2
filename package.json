@@ -1,5 +1,19 @@
 {
   "dependencies": {
-    "express": "^4.18.2"
-  }
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "mongodb": "4.1",
+    "mongoose": "^7.2.2"
+  },
+  "name": "schoolproject-ist2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
