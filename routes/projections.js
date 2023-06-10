@@ -9,12 +9,39 @@ router.get('/', async (req, res) => {
 });
 // inserts projection into database
 router.post('/', async (req, res) => {
-  const projection = new Projection(req.body);
   try {
-    const savedProjection = await projection.save();
-    res.status(201).json(savedProjection);
+    const { filmId, cinemaHallId, price, date, time } = req.body;
+
+    const film = await Film.findById(filmId);
+    const cinemaHall = await CinemaHall.findById(cinemaHallId);
+
+    if (!film) {
+      return res.status(404).json({ error: 'Film not found' });
+    }
+
+    if (!cinemaHall) {
+      return res.status(404).json({ error: 'Cinema hall not found' });
+    }
+
+    if (film.threeD && !cinemaHall.threeD) {
+      return res.status(400).json({ error: 'Cinema hall does not support 3D movies' });
+    }
+
+    const projection = new Projection({
+      film: filmId,
+      cinemaHall: cinemaHallId,
+      price,
+      date,
+      time,
+      capacity: cinemaHall.capacity,
+    });
+
+    await projection.save();
+
+    res.status(201).json(projection);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 // updates projection from database by id

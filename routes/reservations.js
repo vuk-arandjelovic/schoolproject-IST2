@@ -9,12 +9,30 @@ router.get('/', async (req, res) => {
 });
 // inserts reservation into database
 router.post('/', async (req, res) => {
-  const reservation = new Reservation(req.body);
   try {
-    const savedReservation = await reservation.save();
-    res.status(201).json(savedReservation);
+    const { projectionId, email } = req.body;
+    
+    const projection = await Projection.findById(projectionId);
+    if (!projection) {
+      return res.status(404).json({ error: 'Projection not found' });
+    }
+    if (projection.capacity <= 0) {
+      return res.status(400).json({ error: 'Projection is full' });
+    }
+    
+    const reservation = new Reservation({
+      projection: projectionId,
+      email,
+    });
+
+    projection.capacity--;
+
+    await Promise.all([reservation.save(), projection.save()]);
+
+    res.status(201).json(reservation);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 // updates reservation from database by id
