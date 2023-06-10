@@ -5,10 +5,14 @@ const projectionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Film',
   },
+  cinemahall: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'CinemaHall',
+  },
   price: Number,
   date: Date,
   time: String,
-  // Add more fields as per your requirements
+  capacity: Number,
 });
 
 const Projection = mongoose.model('Projection', projectionSchema);

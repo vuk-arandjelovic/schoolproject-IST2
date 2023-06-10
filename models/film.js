@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const filmSchema = new mongoose.Schema({
   title: String,
   director: String,
-  // Add more fields as per your requirements
+  length: Number,
+  threeD: Boolean,
+  rating: Number 
 });
 
 const Film = mongoose.model('Film', filmSchema);

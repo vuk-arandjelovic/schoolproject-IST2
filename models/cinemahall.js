@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cinemaHallSchema = new mongoose.Schema({
   name: String,
   capacity: Number,
-  // Add more fields as per your requirements
+  threeD: Boolean
 });
 
 const CinemaHall = mongoose.model('CinemaHall', cinemaHallSchema);

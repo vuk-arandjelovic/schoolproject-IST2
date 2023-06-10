@@ -5,7 +5,7 @@ const reservationSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Projection',
   },
-  // Add more fields as per your requirements
+  email: String,
 });
 
 const Reservation = mongoose.model('Reservation', reservationSchema);
