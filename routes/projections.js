@@ -1,11 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const { Projection } = require("../models");
+const { Projection, Film, CinemaHall } = require("../models");
 
 // returns all projections
 router.get('/', async (req, res) => {
-  const projections = await Projection.find().populate('film');
+  const projections = await Projection.find().populate('film').populate('cinemahall');
   res.json(projections);
+});
+// Projection filtering by price less or equal to provided
+router.get('/:price', async (req, res) => {
+  const projections = await Projection.find().populate('film');
+  console.log(projections)
+  const projectionsFiltered = projections.filter((proj)=>{
+    console.log(proj.price)
+    console.log(req.params.price)
+    console.log((proj.price <= req.params.price))
+    return proj.price <= (+req.params.price)
+  })
+  console.log(req.params.price)
+  console.log(projectionsFiltered)
+  if(!projectionsFiltered || projectionsFiltered.length){
+    return res.status(404).json({ error: 'Projections with price less or equal not found' });
+  }
+  res.json(projectionsFiltered);
 });
 // inserts projection into database
 router.post('/', async (req, res) => {
@@ -29,7 +46,7 @@ router.post('/', async (req, res) => {
 
     const projection = new Projection({
       film: filmId,
-      cinemaHall: cinemaHallId,
+      cinemahall: cinemaHallId,
       price,
       date,
       time,

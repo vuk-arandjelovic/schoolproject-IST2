@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Reservation } = require("../models");
+const { Reservation, Projection } = require("../models");
 
 // returns all reservations
 router.get('/', async (req, res) => {
